@@ -1,9 +1,10 @@
 """
 BusinessActivityService
 
-A class for interfacing with business productivity service API. It is set up initally
-to interface with Microsoft Office 365 API. But conceivably in the future it could
-be updated to also interface or even be replaced by Google Workspace.
+A class for interfacing with business productivity service API. It is set up
+initally to interface with Microsoft Office 365 API. But conceivably in the
+future it could be updated to also interface or even be replaced by Google
+Workspace.
 """
 from O365 import Account, MSGraphProtocol
 from datetime import date, timedelta
@@ -46,8 +47,9 @@ class BusinessActivityService:
         meetings = self.fetch_meetings(start_date, end_date)
 
         meeting_activities = [
-            BusinessActivity.from_calendar_event(meeting) for meeting in meetings]
-        email_activities = [BusinessActivity.from_email_message(email) for email in emails]
+            BusinessActivity.from_calendar_event(m) for m in meetings]
+        email_activities = [
+            BusinessActivity.from_email_message(email) for email in emails]
 
         activities = meeting_activities + email_activities
         return sorted(activities, key=lambda a: a.started_at)
@@ -76,7 +78,9 @@ class BusinessActivityService:
         """
         q = self.calendar.new_query('start').greater_equal(start_date)
         q.chain('and').on_attribute('end').less_equal(end_date)
-        events = self.calendar.get_events(query=q, include_recurring=True, limit=500)
+        events = self.calendar.get_events(query=q,
+                                          include_recurring=True,
+                                          limit=500)
         return list(events)
 
     def authenticate(self):
