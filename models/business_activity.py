@@ -3,7 +3,7 @@ class BusinessActivity:
         self.resource = params.get('resource')
         self.owner = params.get('owner')
         self.started_at = params.get('started_at')
-        self.ended_at = params.get('started_at')
+        self.ended_at = params.get('ended_at')
         self.created_at = params.get('created_at')
         self.title = params.get('title')
         self.description = params.get('description')
@@ -52,6 +52,17 @@ class BusinessActivity:
     def date(self):
         return self.started_at.date()
 
+    @property
+    def start_time(self):
+        return self.started_at.time()
+
+    @property
+    def duration(self):
+        if self.resource == 'meeting':
+            return (self.ended_at - self.started_at)
+        else:
+            return None
+
     #
     # Instance Methods
     #
@@ -61,6 +72,8 @@ class BusinessActivity:
             self.resource,
             self.started_at,
             self.ended_at,
+            self.start_time,
+            self.duration,
             self.title,
             self.owner,
             self.description
