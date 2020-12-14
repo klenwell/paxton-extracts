@@ -70,4 +70,4 @@ def write_to_csv(activities):
 #
 # Main Block
 #
-test_csv()
+main()
