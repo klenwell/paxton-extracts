@@ -52,6 +52,7 @@ def write_to_csv(activities):
         'Time',
         'Duration',
         'Title',
+        'Client',
         'Owner',
         'Description'
     ]

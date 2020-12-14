@@ -63,6 +63,15 @@ class BusinessActivity:
         else:
             return None
 
+    @property
+    def domain(self):
+        try:
+            return self.owner.split('@')[-1]
+        except TypeError as e:
+            f = "domain property failed:\n  {}\n  {}"
+            print(f.format(e, self))
+            return None
+
     #
     # Instance Methods
     #
@@ -75,6 +84,7 @@ class BusinessActivity:
             self.start_time,
             self.duration,
             self.title,
+            self.domain,
             self.owner,
             self.description
         ]
