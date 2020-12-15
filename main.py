@@ -1,6 +1,6 @@
 from datetime import date, timedelta
 import csv
-from secrets import CLIENT_ID, SECRET_ID
+from config.secrets import CLIENT_ID, SECRET_ID
 from services.business_activity_service import BusinessActivityService
 
 
@@ -12,12 +12,22 @@ def main():
     activities = service.fetch_activities()
     csv_path = write_to_csv(activities)
     print('Wrote {} activities to {}'.format(len(activities), csv_path))
-    breakpoint()
+
+
+def test_csv():
+    start_date = date(2020, 11, 1)
+    end_date = date.today()
+    service = BusinessActivityService(CLIENT_ID, SECRET_ID)
+    activities = service.fetch_activities(start_date, end_date)
+    csv_path = write_to_csv(activities)
+    print('Wrote {} activities to {}'.format(len(activities), csv_path))
 
 
 def activities():
+    start_date = date(2020, 11, 1)
+    end_date = date.today()
     service = BusinessActivityService(CLIENT_ID, SECRET_ID)
-    activities = service.fetch_activities()
+    activities = service.fetch_activities(start_date, end_date)
     print(len(activities))
     breakpoint()
 
@@ -25,7 +35,7 @@ def activities():
 def api_data():
     service = BusinessActivityService(CLIENT_ID, SECRET_ID)
     end = date.today()
-    start = end - timedelta(days=7)
+    start = end - timedelta(days=28)
 
     emails = service.fetch_emails(start, end)
     meetings = service.fetch_meetings(start, end)
@@ -34,7 +44,18 @@ def api_data():
 
 def write_to_csv(activities):
     csv_path = 'o365-activites-{}.csv'.format(date.today().strftime('%Y%m%d'))
-    csv_header = ['Date', 'Type', 'Start', 'End', 'Title', 'Owner', 'Description']
+    csv_header = [
+        'Date',
+        'Type',
+        'Start',
+        'End',
+        'Time',
+        'Duration',
+        'Title',
+        'Client',
+        'Owner',
+        'Description'
+    ]
 
     with open(csv_path, 'w', newline='') as f:
         writer = csv.writer(f)

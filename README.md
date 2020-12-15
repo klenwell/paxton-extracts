@@ -12,6 +12,7 @@ Because my sister works primarily within the Microsoft ecosystem (much to my cha
 ## Install
 - Create a virtualenv
 - Clone the repository
+- Install pip requirments
 - Set up secrets file with Azure IDs
 
 ## Usage

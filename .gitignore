@@ -105,3 +105,9 @@ config/secrets.py
 
 # Ignore tmp cached files
 /cache
+
+# Ignore token files
+o365_token.txt
+
+# Ignore csv output file
+o365-activites-*.csv
