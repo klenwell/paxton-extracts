@@ -9,6 +9,7 @@ class BusinessActivity:
         self.description = params.get('description')
         self.url = params.get('url')
         self.api_data = params.get('data')
+        self.categories = params.get('categories')
 
     #
     # Static Methods
@@ -23,7 +24,8 @@ class BusinessActivity:
             created_at=message.created,
             title=message.subject,
             description=message.body_preview,
-            url=message.web_link
+            url=message.web_link,
+            categories=message.categories
         )
 
         activity.set_api_data_safely(message)
@@ -39,7 +41,8 @@ class BusinessActivity:
             created_at=event.created,
             title=event.subject,
             description=event.get_body_text(),
-            url=None
+            url=None,
+            categories=event.categories
         )
 
         activity.set_api_data_safely(event)
@@ -72,6 +75,10 @@ class BusinessActivity:
             print(f.format(e, self))
             return None
 
+    @property
+    def categories_csv(self):
+        return ','.join(self.categories)
+
     #
     # Instance Methods
     #
@@ -86,7 +93,8 @@ class BusinessActivity:
             self.title,
             self.domain,
             self.owner,
-            self.description
+            self.description,
+            self.categories_csv
         ]
 
     def set_api_data_safely(self, o365_record):
