@@ -14,7 +14,39 @@ def main():
     print('Wrote {} activities to {}'.format(len(activities), csv_path))
 
 
+def write_to_csv(activities):
+    csv_path = 'o365-activites-{}.csv'.format(date.today().strftime('%Y%m%d'))
+    csv_header = [
+        'Date',
+        'Type',
+        'Start',
+        'End',
+        'Time',
+        'Duration',
+        'Title',
+        'Client',
+        'Owner',
+        'Description',
+        'Categories'
+    ]
+
+    with open(csv_path, 'w', newline='') as f:
+        writer = csv.writer(f)
+        writer.writerow(csv_header)
+
+        for activity in activities:
+            writer.writerow(activity.to_csv())
+
+    return csv_path
+
+
+#
+# Test / Sandbox Methods
+#
 def test_csv():
+    """Like main but extends start date to pull in more data if testing with
+    infrequently used account with sparse data set.
+    """
     start_date = date(2020, 11, 1)
     end_date = date.today()
     service = BusinessActivityService(CLIENT_ID, SECRET_ID)
@@ -40,31 +72,6 @@ def api_data():
     emails = service.fetch_emails(start, end)
     meetings = service.fetch_meetings(start, end)
     breakpoint()
-
-
-def write_to_csv(activities):
-    csv_path = 'o365-activites-{}.csv'.format(date.today().strftime('%Y%m%d'))
-    csv_header = [
-        'Date',
-        'Type',
-        'Start',
-        'End',
-        'Time',
-        'Duration',
-        'Title',
-        'Client',
-        'Owner',
-        'Description'
-    ]
-
-    with open(csv_path, 'w', newline='') as f:
-        writer = csv.writer(f)
-        writer.writerow(csv_header)
-
-        for activity in activities:
-            writer.writerow(activity.to_csv())
-
-    return csv_path
 
 
 #
